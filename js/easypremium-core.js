@@ -10,7 +10,7 @@ function showAuthDialog()
 			'	</div>' +
 			'</div>' +
 			'<button id="createEasyPremium" onClick="createEasyPremium()">J\'ai déjà un compte</button>');
-	dialog.dialog({ title: "", modal: true, resizable: false });
+	dialog.dialog({ title: "Je soutiens, je m'abonne", modal: true, resizable: false });
 }
 
 function loginEasyPremium()
