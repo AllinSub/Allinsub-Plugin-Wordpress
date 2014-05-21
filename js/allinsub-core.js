@@ -11,13 +11,13 @@ function initAuthDialog(dialog){
 			'<div class="EPframe">' +
 			'	<div class="EPframeTitle">Je crée mon compte</div>' +
 			'	<div class="buttonsDiv">' +
-			'		<button id="loginFacebook" onClick="loginFacebook()">Facebook</button><button id="loginEasyPremium" onClick="loginEasyPremium()">EasyPremium</button>' +
+			'		<button id="loginFacebook" onClick="loginFacebook()">Facebook</button><button id="loginAllinsub" onClick="loginAllinsub()">Allinsub</button>' +
 			'	</div>' +
 			'</div>' +
-			'<button id="createEasyPremium" onClick="createEasyPremium()">J\'ai déjà un compte</button>');
+			'<button id="createAllinsub" onClick="createAllinsub()">J\'ai déjà un compte</button>');
 }
 
-function loginEasyPremium()
+function loginAllinsub()
 {
 	// window.alert("Test");
 	var dialog = jQuery( "#dialog" );

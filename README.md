@@ -1,4 +1,4 @@
-EasyPremium-Plugin-Wordpress
+Allinsub-Plugin-Wordpress
 ============================
 
-Plugin Wordpress pour EasyPremium
+Plugin Wordpress pour Allinsub
