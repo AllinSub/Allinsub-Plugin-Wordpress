@@ -19,11 +19,11 @@ function initAuthDialog(dialog){
 		dialog.html("" +
 				'<div class="EPframe">' +
 				'	<div class="EPframeTitle">Je crée mon compte</div>' +
-				'	<div class="buttonsDiv">' +
+				'	<div class="alignCenter">' +
 				'		<button id="loginFacebook" onClick="loginFacebook()">Facebook</button><button id="loginAllinsub" onClick="loginAllinsub()">Allinsub</button>' +
 				'	</div>' +
 				'</div>' +
-				'<button id="createAllinsub" onClick="createAllinsub()">J\'ai déjà un compte</button>');
+				'<button class="alignCenter" id="createAllinsub" onClick="createAllinsub()">J\'ai déjà un compte</button>');
 	}
 }
 
@@ -41,7 +41,7 @@ function loginAllinsub()
 			'	<p><label for="birthday">Date de naissance</label> : <input type="date" name="birthday" /></p>' +		
 			'	<p><input type="checkbox" name="confirmationCGU" id="confirmationCGU" /> <label for="confirmationCGU">J\'accepte les <a href="">conditions d\'utilisation</a></label></p>' +	
 			'</fieldset>' +
-			'<div class="buttonsDiv">' +
+			'<div class="alignCenter">' +
 			'	<button onClick="clearDialog()">Annuler</create><button onClick="checkForCreateAccount()">Créer</create>' +
 			'</div>' +
 			'');
