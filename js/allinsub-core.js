@@ -50,10 +50,17 @@ function loginAllinsub()
 function checkForCreateAccount() {
 	setCookie(COOKIE_ISUSERCONNECTED, true);
 	alert("Save in cookie");
+	location.reload();
 }
 
 function clearDialog() {
 	initAuthDialog(dialog);
+}
+
+function logout () {
+	clearCookie(COOKIE_ISUSERCONNECTED);
+	isUserConnected = false;
+	location.reload();
 }
 
 function setCookie(sName, sValue) {
@@ -79,6 +86,12 @@ function getCookie(sName) {
         return null;
 }
 
+function clearCookie(sName) {
+	var today = new Date(), expires = new Date();
+	expires.setTime(today.getTime() - 1000);
+	document.cookie = sName + "=" + encodeURIComponent("") + ";expires=" + expires.toGMTString();
+}
+
 function onPageLoaded () {
 	// init dialog
 	dialog = jQuery( "#dialog" );
@@ -88,9 +101,15 @@ function onPageLoaded () {
 	if (isUserConnected == true){
 		var aisWidget = jQuery( "#EP_Widget" );
 		aisWidget.html("" +
-			'<div >' +
-				'Utilisateur connecté' +
-			'</div>' +
+			'<h1>Bonjour Marc,</h1>' +
+			'<br />' +
+			'<div>Votre abonnement à '+ blogInfo.name +' est valable jusqu\'au 13/03/2014</div>' +
+			'<br />' +
+			'<div class="alignCenter">' +
+				'<button onClick=\'window.location.href="http://www.allinsub.com/user/1"\'>Voir mon compte</button><button onClick="logout()">Déconnexion</button>' +
+			'</ div>' +
+			'<br />' +
+			'<div id="textViaDiv">Via <a href="www.allinsub.com">Allinsub</a></div>' +
 			'');
 	} else {
 	}
