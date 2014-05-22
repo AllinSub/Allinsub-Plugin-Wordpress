@@ -1,26 +1,35 @@
+var COOKIE_ISUSERCONNECTED = "isUserConnected";
+var isUserConnected = false;
+var dialog;
+
+
+// Root method called from "I subscribe"
 function showAuthDialog()
 {
 	// window.alert("Test");
-	var dialog = jQuery( "#dialog" );
 	initAuthDialog(dialog);
 	dialog.dialog({ width: "450px", title: "Je soutiens, je m'abonne", modal: true, resizable: false });
 }
 
+// Use to add first content in dialog
 function initAuthDialog(dialog){
-	dialog.html("" +
-			'<div class="EPframe">' +
-			'	<div class="EPframeTitle">Je crée mon compte</div>' +
-			'	<div class="buttonsDiv">' +
-			'		<button id="loginFacebook" onClick="loginFacebook()">Facebook</button><button id="loginAllinsub" onClick="loginAllinsub()">Allinsub</button>' +
-			'	</div>' +
-			'</div>' +
-			'<button id="createAllinsub" onClick="createAllinsub()">J\'ai déjà un compte</button>');
+	if (isUserConnected) {
+	} else {
+		// Ask for auth
+		dialog.html("" +
+				'<div class="EPframe">' +
+				'	<div class="EPframeTitle">Je crée mon compte</div>' +
+				'	<div class="buttonsDiv">' +
+				'		<button id="loginFacebook" onClick="loginFacebook()">Facebook</button><button id="loginAllinsub" onClick="loginAllinsub()">Allinsub</button>' +
+				'	</div>' +
+				'</div>' +
+				'<button id="createAllinsub" onClick="createAllinsub()">J\'ai déjà un compte</button>');
+	}
 }
 
 function loginAllinsub()
 {
 	// window.alert("Test");
-	var dialog = jQuery( "#dialog" );
 	dialog.html("" +
 			'<fieldset class="EPframe" align="left">' +
 			'	<legend>Nouvel utilisateur</legend>' +
@@ -30,15 +39,65 @@ function loginAllinsub()
 			'	<p><label for="passwordConfirmation">Confirmation</label> : <input type="password" name="passwordConfirmation" /></p>' +
 			'	<p>Genre : <input type="radio" name="gender" value="woman" id="woman" /> <label for="woman">Femme</label> <input type="radio" name="gender" value="man" id="man" /> <label for="man">Homme</label></p>' +	
 			'	<p><label for="birthday">Date de naissance</label> : <input type="date" name="birthday" /></p>' +		
-			'	<p><input type="checkbox" name="confirmationCGU" id="confirmationCGU" /> <label for="confirmationCGU">J\accepte les <a href="">conditions d\'utilisation</a></label></p>' +	
+			'	<p><input type="checkbox" name="confirmationCGU" id="confirmationCGU" /> <label for="confirmationCGU">J\'accepte les <a href="">conditions d\'utilisation</a></label></p>' +	
 			'</fieldset>' +
 			'<div class="buttonsDiv">' +
-			'	<button onClick="clearDialog()">Annuler</create><button>Créer</create>' +
+			'	<button onClick="clearDialog()">Annuler</create><button onClick="checkForCreateAccount()">Créer</create>' +
 			'</div>' +
 			'');
 }
 
+function checkForCreateAccount() {
+	setCookie(COOKIE_ISUSERCONNECTED, true);
+	alert("Save in cookie");
+}
+
 function clearDialog() {
-	var dialog = jQuery( "#dialog" );
 	initAuthDialog(dialog);
 }
+
+function setCookie(sName, sValue) {
+	var today = new Date(), expires = new Date();
+	expires.setTime(today.getTime() + (365*24*60*60*1000));
+	document.cookie = sName + "=" + encodeURIComponent(sValue) + ";expires=" + expires.toGMTString();
+}
+
+function getCookie(sName) {
+        var cookContent = document.cookie, cookEnd, i, j;
+        var sName = sName + "=";
+ 
+        for (i=0, c=cookContent.length; i<c; i++) {
+                j = i + sName.length;
+                if (cookContent.substring(i, j) == sName) {
+                        cookEnd = cookContent.indexOf(";", j);
+                        if (cookEnd == -1) {
+                                cookEnd = cookContent.length;
+                        }
+                        return decodeURIComponent(cookContent.substring(j, cookEnd));
+                }
+        }       
+        return null;
+}
+
+function onPageLoaded () {
+	// init dialog
+	dialog = jQuery( "#dialog" );
+
+	// Manage user connection
+	isUserConnected = isUserConnectedFct();
+	if (isUserConnected == true){
+		var aisWidget = jQuery( "#EP_Widget" );
+		aisWidget.html("" +
+			'<div >' +
+				'Utilisateur connecté' +
+			'</div>' +
+			'');
+	} else {
+	}
+}
+
+function isUserConnectedFct (){
+	return getCookie(COOKIE_ISUSERCONNECTED) == "true";
+}
+
+window.onload = onPageLoaded;

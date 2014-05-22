@@ -27,9 +27,7 @@ new EP_Plugin ();
 
 function load_scripts() {
 	wp_enqueue_script ( 'jquery' );
-	wp_enqueue_script ( 'jquery-ui-dialog', array (
-			'jquery' 
-	) );
+	wp_enqueue_script ( 'jquery-ui-dialog', array ('jquery') );
 	wp_register_style ( 'jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
 	wp_enqueue_style ( 'jquery-ui' );
 }
