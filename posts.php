@@ -68,7 +68,7 @@ class EP_PostEdit {
 	function filter_post_content ( $content ) {
 		$isUserPremium = isUserPremium ();
 		$isPostPremium = isPostPremium ();
-		var_dump ( $_COOKIE );
+		// var_dump ( $_COOKIE );
 		
 		if (is_singular ()) {
 			
