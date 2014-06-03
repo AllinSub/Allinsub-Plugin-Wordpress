@@ -25,7 +25,7 @@ class EP_Plugin {
 		new EP_Widgets_Manager ();
 		
 		// Include posts components
-		include_once plugin_dir_path ( __FILE__ ) . '/metabox.php';
+		include_once plugin_dir_path ( __FILE__ ) . '/posts.php';
 		new EP_PostEdit ();
 	}
 }

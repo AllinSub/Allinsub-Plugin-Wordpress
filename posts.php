@@ -9,29 +9,19 @@ class EP_PostEdit {
 		$this->log = new Logging ();
 		$this->log->lfile ( '/mylog.txt' );
 		
-		add_action ( 'add_meta_boxes', array (
-				$this,
-				'initMetabox' 
-		) );
+		add_action ( 'add_meta_boxes', array ($this,'initMetabox' ) );
 		
-		add_action ( 'pre_post_update', array (
-				$this,
-				'save_metaboxes' 
-		) );
+		add_action ( 'pre_post_update', array ($this,'save_metaboxes' ) );
+		
+		add_filter ( 'the_content', array ($this,'filter_post_content' ) );
 	}
 
 	function initMetabox () {
-		$screens = array (
-				'post',
-				'page' 
-		);
+		$screens = array ('post','page' );
 		
 		foreach ( $screens as $screen ) {
 			
-			add_meta_box ( 'id_allinsub_meta', 'AllinSub', array (
-					$this,
-					'meta_function' 
-			), $screen, 'side', 'default' );
+			add_meta_box ( 'id_allinsub_meta', 'AllinSub', array ($this,'meta_function' ), $screen, 'side', 'default' );
 		}
 	}
 
@@ -74,5 +64,33 @@ class EP_PostEdit {
 		// $this->log->lwrite ( 'update_post_meta :' . ($resUpdate ? 'true' : 'false') );
 		// $this->log->lwrite ( 'add_post_meta :' . ($resAdd ? 'true' : 'false') );
 	}
+
+	function filter_post_content ( $content ) {
+		global $post;
+		// var_dump ( $post );
+		// var_dump ( $content );
+		
+		if (is_singular ()) {
+			$isPremium = get_post_meta ( $post->ID, METAKEY_ISPREMIUM, true );
+			$isPremium = strcmp ( $isPremium, 'true' ) == 0;
+			
+			if ($isPremium) {
+				// If has more, hide after more.
+				$morePosition = strpos ( get_the_content (), 'id="more-' );
+				if ($morePosition) {
+					$content = substr ( $content, 0, $morePosition ) . " [...]";
+				}
+				
+				$content = $content . "\n<br />\n";
+				$content = $content . "<div>Cet article est un article premium. Merci de vous abonner pour profiter d'un article complet</div>\n";
+				$content = $content . "<br />\n";
+				$content = $content . "<div>Il vous suffit de cliquer sur le bouton suivant.</div>\n";
+				$content = $content . "<br />\n";
+				$content = $content . "<div><button>Je m'abonne</button></div>\n";
+			}
+		}
+		return $content;
+	}
 }
+
 ?>
