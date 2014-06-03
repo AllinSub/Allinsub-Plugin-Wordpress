@@ -10,6 +10,9 @@ Description: Plugin ready to use for Allinsub.
 
 class EP_Plugin {
 	public function __construct() {
+		// Include log tool
+		include_once plugin_dir_path ( __FILE__ ) . '/log.php';
+		
 		// Load scripts
 		add_action ( 'init', 'load_scripts' );
 		
@@ -20,6 +23,10 @@ class EP_Plugin {
 		// Include widgets components
 		include_once plugin_dir_path ( __FILE__ ) . '/widgets.php';
 		new EP_Widgets_Manager ();
+		
+		// Include posts components
+		include_once plugin_dir_path ( __FILE__ ) . '/metabox.php';
+		new EP_PostEdit ();
 	}
 }
 
