@@ -109,7 +109,7 @@ function onPageLoaded () {
 				'<button onClick=\'window.location.href="http://www.allinsub.com/user/1"\'>Voir mon compte</button><button onClick="logout()">Déconnexion</button>' +
 			'</ div>' +
 			'<br />' +
-			'<div id="textViaDiv">Via <a href="www.allinsub.com">Allinsub</a></div>' +
+			'<div id="textViaDiv">Via <a href="http://www.allinsub.com" target=_blank>Allinsub</a></div>' +
 			'');
 	} else {
 	}

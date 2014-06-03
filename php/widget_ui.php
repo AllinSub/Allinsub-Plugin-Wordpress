@@ -16,7 +16,7 @@
 	<button id="bSubscribe" onClick="showAuthDialog()">Je m'abonne</button>
 	<br />
 	<div id="textViaDiv">
-		Via <a href="www.allinsub.com">Allinsub</a>
+		Via <a href="http://www.allinsub.com">Allinsub</a>
 	</div>
 </div>
 <div id="dialog" title="Basic dialog" style="display: none;"></div>
