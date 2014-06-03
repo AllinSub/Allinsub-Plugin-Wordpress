@@ -31,7 +31,7 @@ class EP_PostEdit {
 			add_meta_box ( 'id_allinsub_meta', 'AllinSub', array (
 					$this,
 					'meta_function' 
-			), $screen, 'side', 'high' );
+			), $screen, 'side', 'default' );
 		}
 	}
 
