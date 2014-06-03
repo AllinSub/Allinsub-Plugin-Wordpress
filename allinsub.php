@@ -1,15 +1,10 @@
 <?php
 /*
-Plugin Name: Allinsub
-Plugin URI: http://allinsub.com
-Version: 0.1
-Author: Allinsub
-Description: Plugin ready to use for Allinsub.
-*/
-
-
+ * Plugin Name: Allinsub Plugin URI: http://allinsub.com Version: 0.1 Author: Allinsub Description: Plugin ready to use for Allinsub.
+ */
 class EP_Plugin {
-	public function __construct() {
+
+	public function __construct () {
 		// Include log tool
 		include_once plugin_dir_path ( __FILE__ ) . '/log.php';
 		
@@ -32,10 +27,30 @@ class EP_Plugin {
 
 new EP_Plugin ();
 
-function load_scripts() {
+function load_scripts () {
 	wp_enqueue_script ( 'jquery' );
-	wp_enqueue_script ( 'jquery-ui-dialog', array ('jquery') );
+	wp_enqueue_script ( 'jquery-ui-dialog', array ('jquery' ) );
 	wp_register_style ( 'jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css' );
 	wp_enqueue_style ( 'jquery-ui' );
+}
+
+function isPostPremium () {
+	global $post;
+	// var_dump ( $post );
+	$isPremium = get_post_meta ( $post->ID, METAKEY_ISPREMIUM, true );
+	$isPremium = strcmp ( $isPremium, 'true' ) == 0;
+	return $isPremium;
+}
+
+function isUserPremium () {
+	if (! isset ( $userCookie ))
+		return false;
+	
+	$userCookie = $userCookie == 'true';
+	return $userCookie;
+}
+
+function isUserAndPostPremium () {
+	return isPostPremium () && isUserPremium ();
 }
 ?>

@@ -10,10 +10,10 @@ class EP_PostEdit {
 		$this->log->lfile ( '/mylog.txt' );
 		
 		add_action ( 'add_meta_boxes', array ($this,'initMetabox' ) );
-		
 		add_action ( 'pre_post_update', array ($this,'save_metaboxes' ) );
-		
 		add_filter ( 'the_content', array ($this,'filter_post_content' ) );
+		add_filter ( 'comments_array', array ($this,'filter_post_comments' ) );
+		add_filter ( 'my_comments_open', array ($this,'filter_comment_form' ) );
 	}
 
 	function initMetabox () {
@@ -27,9 +27,9 @@ class EP_PostEdit {
 
 	function meta_function ( $post ) {
 		$savedValue = get_post_meta ( $post->ID, METAKEY_ISPREMIUM, true );
-		$isPremium = strcmp ( $savedValue, 'true' ) == 0;
+		$isPremiumPost = strcmp ( $savedValue, 'true' ) == 0;
 		
-		if ($isPremium == true) {
+		if ($isPremiumPost == true) {
 			$isChecked = 'checked="yes" ';
 		} else {
 			$isChecked = '';
@@ -38,11 +38,11 @@ class EP_PostEdit {
 		// echo 'savedValue';
 		// var_dump ( $savedValue );
 		// echo 'isPremium';
-		// var_dump ( $isPremium );
+		// var_dump ( $isPremiumPost );
 		// echo 'isChecked';
 		// var_dump ( $isChecked );
-		// echo '<div>isPremium is null ? : ' . is_null ( $isPremium ) . '</div>';
-		// echo '<div>Is post ' . $post->ID . ' premium : ' . $isPremium . '</div>';
+		// echo '<div>isPremium is null ? : ' . is_null ( $isPremiumPost ) . '</div>';
+		// echo '<div>Is post ' . $post->ID . ' premium : ' . $isPremiumPost . '</div>';
 		
 		// instead of writing HTML here, lets do an include
 		include (MY_PLUGIN_FOLDER . '/php/metabox_ui.php');
@@ -50,31 +50,29 @@ class EP_PostEdit {
 
 	function save_metaboxes ( $post_id ) {
 		// isPremium is true if checkbox is set
-		$isPremium = isset ( $_POST ['allinsub_is_premium'] );
-		$isPremiumString = ($isPremium ? 'true' : 'false');
-		$resUpdate = update_post_meta ( $post_id, METAKEY_ISPREMIUM, $isPremiumString );
+		$isPremiumPost = isset ( $_POST ['allinsub_is_premium'] );
+		$isPremiumPostString = ($isPremiumPost ? 'true' : 'false');
+		$resUpdate = update_post_meta ( $post_id, METAKEY_ISPREMIUM, $isPremiumPostString );
 		
 		if (! $resUpdate) {
-			$resAdd = add_post_meta ( $post_id, METAKEY_ISPREMIUM, $isPremiumString );
+			$resAdd = add_post_meta ( $post_id, METAKEY_ISPREMIUM, $isPremiumPostString );
 		}
 		
 		// Print log to confirm
-		// $this->log->lwrite ( 'Post id : ' . $post_id . ' / Key : ' . METAKEY_ISPREMIUM . ' / Value : ' . $isPremiumString );
-		// $this->log->lwrite ( 'isPremiumString :' . $isPremiumString );
+		// $this->log->lwrite ( 'Post id : ' . $post_id . ' / Key : ' . METAKEY_ISPREMIUM . ' / Value : ' . $isPremiumPostString );
+		// $this->log->lwrite ( 'isPremiumString :' . $isPremiumPostString );
 		// $this->log->lwrite ( 'update_post_meta :' . ($resUpdate ? 'true' : 'false') );
 		// $this->log->lwrite ( 'add_post_meta :' . ($resAdd ? 'true' : 'false') );
 	}
 
 	function filter_post_content ( $content ) {
-		global $post;
-		// var_dump ( $post );
-		// var_dump ( $content );
+		$isUserPremium = isUserPremium ();
+		$isPostPremium = isPostPremium ();
+		var_dump ( $_COOKIE );
 		
 		if (is_singular ()) {
-			$isPremium = get_post_meta ( $post->ID, METAKEY_ISPREMIUM, true );
-			$isPremium = strcmp ( $isPremium, 'true' ) == 0;
 			
-			if ($isPremium) {
+			if ($isPostPremium && ! $isUserPremium) {
 				// If has more, hide after more.
 				$morePosition = strpos ( get_the_content (), 'id="more-' );
 				if ($morePosition) {
@@ -90,6 +88,29 @@ class EP_PostEdit {
 			}
 		}
 		return $content;
+	}
+
+	function filter_post_comments ( $comments ) {
+		$isUserPremium = isUserPremium ();
+		$isPostPremium = isPostPremium ();
+		// var_dump ( $content );
+		
+		if (is_singular ()) {
+			
+			if ($isPostPremium && ! $isUserPremium) {
+				$comments = "";
+			}
+		}
+		return $comments;
+	}
+
+	function filter_comment_form ( $open, $post_id ) {
+		$isAllowed = isUserAndPostPremium ();
+		
+		if (isPostPremium () && ! isUserPremium ()) {
+			$open = $false;
+		}
+		return $open;
 	}
 }
 
