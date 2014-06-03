@@ -43,6 +43,7 @@ function isPostPremium () {
 }
 
 function isUserPremium () {
+	$userCookie = $_COOKIE ['isUserConnected'];
 	if (! isset ( $userCookie ))
 		return false;
 	
