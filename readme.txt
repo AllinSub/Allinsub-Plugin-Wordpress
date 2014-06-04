@@ -1,8 +1,8 @@
 === Allinsub ===
-Tags: subscription,
+Tags: subscription
 Requires at least: 3.9
 Tested up to: 3.9
-Stable tag: 3.9
+Stable tag: trunk
 License: Apache 2
 License URI: http://www.apache.org/licenses/LICENSE-2.0
 

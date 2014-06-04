@@ -1,6 +1,10 @@
 <?php
 /*
- * Plugin Name: Allinsub Plugin URI: http://allinsub.com Version: 0.1 Author: Allinsub Description: Plugin ready to use for Allinsub.
+ * Plugin Name: Allinsub 
+ * Plugin URI: http://allinsub.com 
+ * Version: 0.1 
+ * Author: Allinsub 
+ * Description: Plugin ready to use for Allinsub.
  */
 class EP_Plugin {
 
